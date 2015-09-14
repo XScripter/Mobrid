@@ -1,0 +1,329 @@
+*,
+*:before,
+*:after {
+  @include box-sizing(border-box);
+}
+
+html {
+  overflow: hidden;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+}
+
+body,
+.mo-body {
+  @include touch-callout(none);
+  @include font-smoothing(antialiased);
+  @include text-size-adjust(none);
+  @include tap-highlight-transparent();
+  @include user-select(none);
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+
+  margin: 0;
+  padding: 0;
+
+  color: $base-color;
+  word-wrap: break-word;
+  font-size: $font-size-base;
+  font-family: $font-family-base;
+  line-height: $line-height-computed;
+  text-rendering: optimizeLegibility;
+  -webkit-backface-visibility: hidden;
+  -webkit-user-drag: none;
+  -ms-content-zooming: none;
+
+  .mo-screen {
+    left: 0;
+    top: 0;
+    min-height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    position: absolute;
+    @include display-flex;
+    @include flex-direction(column);
+    @include flex(1);
+    box-orient: vertical;
+    z-index: $z-index-screen;
+
+    &.current {
+      z-index: $z-index-screen-current;
+    }
+  }
+
+  > .mo-screen:not(.current):not(.in):not(.out) {
+    display: none;
+  }
+
+  // Ensure margins don't collapse
+  .mo-scroll {
+    -webkit-margin-collapse: separate;
+  }
+
+  .in, .out {
+    -webkit-animation-duration: 375ms;
+    -webkit-animation-fill-mode: both;
+    -webkit-animation-timing-function: ease-in-out;
+
+    // Make sure elements that are animating are not tapable
+    &:after {
+      @include pseudo-element($width: auto);
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+
+    input, a {
+      pointer-events: none;
+    }
+  }
+
+  .in {
+    z-index: $z-index-screen-in;
+  }
+  .out {
+    z-index: $z-index-screen-out !important;
+  }
+
+  &.mo-notransform {
+    -webkit-transform: none !important;
+  }
+
+}
+
+body.mo-grade-b,
+body.mo-grade-c {
+  // disable optimizeLegibility for low end devices
+  text-rendering: auto;
+}
+
+.mo-content {
+  // used for content areas not using the content directive
+  position: relative;
+}
+
+.mo-inner-scroll-content {
+  position: absolute;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+
+  // Hide the top border if any
+  margin-top: -1px;
+
+  // Prevents any distortion of lines
+  padding-top: 1px;
+  margin-bottom: -1px;
+
+  width: auto;
+  height: auto;
+}
+
+.mo-scroll-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+
+  // Hide the top border if any
+  margin-top: -1px;
+
+  // Prevents any distortion of lines
+  padding-top: 1px;
+  margin-bottom: -1px;
+
+  width: auto;
+  height: auto;
+}
+
+.mo-menu .mo-scroll-content.mo-scroll-content-false {
+  z-index: $z-index-scroll-content-false;
+}
+
+.mo-scroll-view {
+  position: relative;
+  display: block;
+  overflow: hidden;
+
+  // Hide the top border if any
+  margin-top: -1px;
+}
+
+/**
+ * Scroll is the scroll view component available for complex and custom
+ * scroll view functionality.
+ */
+.mo-scroll {
+  @include user-select(none);
+  @include touch-callout(none);
+  @include text-size-adjust(none);
+  @include transform-origin(left, top);
+}
+
+/**
+ * Set ms-viewport to prevent MS "page squish" and allow fluid scrolling
+ * https://msdn.microsoft.com/en-us/library/ie/hh869615(v=vs.85).aspx
+ */
+@-ms-viewport {
+  width: device-width;
+}
+
+// Scroll bar styles
+.mo-scroll-bar {
+  position: absolute;
+  z-index: $z-index-scroll-bar;
+}
+
+// hide the scroll-bar during animations
+.animating .mo-scroll-bar {
+  visibility: hidden;
+}
+
+.mo-scroll-bar-h {
+  right: 2px;
+  bottom: 3px;
+  left: 2px;
+  height: 3px;
+
+  .mo-scroll-bar-indicator {
+    height: 100%;
+  }
+}
+
+.mo-scroll-bar-v {
+  top: 2px;
+  right: 3px;
+  bottom: 2px;
+  width: 3px;
+
+  .mo-scroll-bar-indicator {
+    width: 100%;
+  }
+}
+
+.mo-scroll-bar-indicator {
+  position: absolute;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 1;
+  @include transition(opacity .3s linear);
+
+  &.mo-scroll-bar-fade-out {
+    opacity: 0;
+  }
+}
+
+.mo-platform-android .mo-scroll-bar-indicator {
+  // android doesn't have rounded ends on scrollbar
+  border-radius: 0;
+}
+
+.mo-grade-b .mo-scroll-bar-indicator,
+.mo-grade-c .mo-scroll-bar-indicator {
+  // disable rgba background and border radius for low end devices
+  background: #aaa;
+
+  &.mo-scroll-bar-fade-out {
+    @include transition(none);
+  }
+}
+
+.mo-overflow-scroll {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+
+  .mo-scroll {
+    position: static;
+    height: 100%;
+    -webkit-transform: translate3d(0, 0, 0); // fix iOS bug where relative children of scroller disapear while scrolling.  see: http://stackoverflow.com/questions/9807620/ipad-safari-scrolling-causes-html-elements-to-disappear-and-reappear-with-a-dela
+  }
+}
+
+// Pad top/bottom of content so it doesn't hide behind .bar-title and .bar-tab.
+// Note: For these to work, content must come after both bars in the markup
+/* If you change these, change platform.scss as well */
+.mo-has-header {
+  top: $bar-height;
+}
+
+// Force no header
+.mo-no-header {
+  top: 0;
+}
+
+.mo-has-subheader {
+  top: $bar-height + $bar-subheader-height;
+}
+
+.mo-has-tabs-top {
+  top: $bar-height + $tabs-height;
+}
+
+.mo-has-header.mo-has-subheader.mo-has-tabs-top {
+  top: $bar-height + $bar-subheader-height + $tabs-height;
+}
+
+.mo-has-footer {
+  bottom: $bar-footer-height;
+}
+
+.mo-has-subfooter {
+  bottom: $bar-footer-height + $bar-subfooter-height;
+}
+
+.mo-has-tabs,
+.mo-bar-footer.mo-has-tabs {
+  bottom: $tabs-height;
+  &.mo-pane {
+    bottom: $tabs-height;
+    height: auto;
+  }
+}
+
+.mo-has-footer.mo-has-tabs {
+  bottom: $tabs-height + $bar-footer-height;
+}
+
+// A full screen section with a solid background
+.mo-pane {
+  @include translate3d(0, 0, 0);
+  @include transition-duration(0);
+  z-index: $z-index-pane;
+}
+
+.mo-view {
+  z-index: $z-index-view;
+}
+
+.mo-pane,
+.mo-view {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $base-background-color;
+  overflow: hidden;
+}
+
+.mo-view-container {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+}

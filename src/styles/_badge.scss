@@ -1,0 +1,61 @@
+/**
+ * Badges
+ * --------------------------------------------------
+ */
+
+.mo-badge {
+  @include badge-style($badge-default-bg, $badge-default-text);
+  z-index: $z-index-badge;
+  display: inline-block;
+  padding: 3px 8px;
+  min-width: 10px;
+  border-radius: $badge-border-radius;
+  vertical-align: baseline;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: $badge-font-weight;
+  font-size: $badge-font-size;
+  line-height: $badge-line-height;
+
+  &:empty {
+    display: none;
+  }
+}
+
+//Be sure to override specificity of rule that 'badge color matches tab color by default'
+.mo-tabs .mo-tab-item .mo-badge,
+.mo-badge {
+  &.mo-badge-light {
+    @include badge-style($badge-light-bg, $badge-light-text);
+  }
+  &.mo-badge-stable {
+    @include badge-style($badge-stable-bg, $badge-stable-text);
+  }
+  &.mo-badge-positive {
+    @include badge-style($badge-positive-bg, $badge-positive-text);
+  }
+  &.mo-badge-calm {
+    @include badge-style($badge-calm-bg, $badge-calm-text);
+  }
+  &.mo-badge-assertive {
+    @include badge-style($badge-assertive-bg, $badge-assertive-text);
+  }
+  &.mo-badge-balanced {
+    @include badge-style($badge-balanced-bg, $badge-balanced-text);
+  }
+  &.mo-badge-energized {
+    @include badge-style($badge-energized-bg, $badge-energized-text);
+  }
+  &.mo-badge-royal {
+    @include badge-style($badge-royal-bg, $badge-royal-text);
+  }
+  &.mo-badge-dark {
+    @include badge-style($badge-dark-bg, $badge-dark-text);
+  }
+}
+
+// Quick fix for labels/badges in buttons
+.mo-button .mo-badge {
+  position: relative;
+  top: -1px;
+}

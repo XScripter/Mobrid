@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="core/dom/test.css">
+    <title>Mobird Query fx unit tests</title>
+    <script src="vendor/evidence.js"></script>
+    <script src="vendor/evidence_runner.js"></script>
+    <script src="../build/js/mobird.js"></script>
+  <style>
+    @-webkit-keyframes animName {
+      0% {
+        -webkit-transform: rotate(180deg) scale(.8);
+        opacity: 1;
+      }
+      100% {
+        -webkit-transform: rotate(0deg) scale(1) translate3d(80px, 20px, 0);
+        opacity: 0.5;
+      }
+    }
+    @-moz-keyframes animName {
+      from {
+        -moz-transform: rotate(180deg) scale(.8) translate(0, 0);
+        opacity: 1;
+      }
+      to {
+        -moz-transform: rotate(0deg) scale(1) translate(80px, 20px);
+        opacity: 0.5;
+      }
+    }
+     @keyframes animName {
+      from {
+        transform: rotate(180deg) scale(.8) translate(0, 0);
+        opacity: 1;
+      }
+      to {
+        transform: rotate(0deg) scale(1) translate(80px, 20px);
+        opacity: 0.5;
+      }
+    }
+
+    #keyframetest {
+      opacity: 0.5;
+      -webkit-transform: translate3d(80px, 20px, 0);
+      -moz-transform: translate3d(80px, 20px, 0);
+      transform: translate3d(80px, 20px, 0);
+    }
+
+    .fixtures-left {
+      width: 120px;
+      float: left;
+    }
+    .fixtures-right {
+      margin-left: 120px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Zepto Fx unit tests</h1>
+  <p id="results">
+    Running… see browser console for results
+  </p>
+
+  <div class=fixtures-left>
+    <div id="animtest_1" style="width:40px;height:40px;background:red"></div>
+    <div id="animtest_2" style="width:40px;height:40px;background:red"></div>
+    <div id="durationtest_1" style="width:40px;height:40px;background:red"></div>
+    <div id="durationtest_2" style="width:40px;height:40px;background:red"></div>
+    <div id="delaytest" style="width:40px;height:40px;background:red"></div>
+  </div>
+  <div class=fixtures-right>
+    <div id="durationtest_3" style="width:40px;height:40px;background:red"></div>
+    <div id="callbacktest" style="width:40px;height:40px;background:red"><div style="width:40px;height:40px;background:blue"></div></div>
+    <div id="keyframetest" style="width:40px;height:40px;background:red;"></div>
+  </div>
+
+  <div id="anim_zero_duration_callback_test"></div>
+
+  <script src="core/dom/fx.js"></script>
+</body>
+</html>

@@ -1,0 +1,740 @@
+@mixin line-clamp($line) {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  flex-basis: auto;
+  display: block;
+  flex-basis: 1px;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  overflow: hidden !important;
+  -webkit-box-pack: center;
+}
+
+/**
+ * Note IE7/6 doesn't understand pseudo element as ::before and ::after
+ * IE8 need to have :before and not ::before
+ * So use only : and not :: if you want to support IE8
+ * IE9 Webkit Firefox Opera understand ::
+ */
+@mixin pseudo-element($width: 0, $height: auto, $content: "", $display: block, $position: absolute) {
+  content: $content;
+  @if ($position != default) {
+    position: $position;
+  }
+  @if ($display != default) {
+    display: $display;
+  }
+
+  @if ($width != auto) {
+    width: $width; // Default 0 is for FF3 positioning
+  }
+
+  @if ($height != auto) {
+    height: $height;
+  }
+}
+
+// ***************************************************************************
+// Clearfix [清除浮动]
+// ***************************************************************************
+
+// 通过给父元素添加该mixin，可以很容易地清除浮动(float)
+// http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+    line-height: 0;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+// ***************************************************************************
+// Placeholder text [占位符文本]
+// ***************************************************************************
+
+// 设置表单(form)文本默认占位符颜色
+@mixin placeholder($color: $input-color-placeholder, $text-indent: 0) {
+  &::-moz-placeholder {
+    // Firefox 19+
+    color: $color;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+  &::-webkit-input-placeholder {
+    color: $color;
+    // Safari placeholder margin issue
+    text-indent: $text-indent;
+  }
+}
+
+// ***************************************************************************
+// Text Mixins [文本]
+// ***************************************************************************
+
+// 禁用Webkit内核浏览器的文字大小调整功能
+// 解决问题：当样式表里font-size<12px时，中文版chrome浏览器里字体显示仍为12px，这时可以用 html{-webkit-text-size-adjust:none;}
+@mixin text-size-adjust($value: none) {
+  -webkit-text-size-adjust: $value;
+  -moz-text-size-adjust: $value;
+  text-size-adjust: $value;
+}
+
+// 设置移动设备浏览器上选中后高亮的颜色为透明
+// 解决问题：某些带事件的DOM，出现瞬间的闪动，a标签点击的时候出现黑色的背景
+@mixin tap-highlight-transparent() {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent; // For some Androids
+}
+
+// 禁止用户选择文本、复制图片
+@mixin touch-callout($value: none) {
+  -webkit-touch-callout: $value;
+}
+
+// ***************************************************************************
+// Font Mixins [字体]
+// ***************************************************************************
+
+@mixin font-family-serif() {
+  font-family: $font-family-serif;
+}
+
+@mixin font-family-sans-serif() {
+  font-family: $font-family-sans-serif;
+}
+
+@mixin font-family-monospace() {
+  font-family: $font-family-monospace;
+}
+
+@mixin font-shorthand($size: $font-size-base, $weight: normal, $line-height: $line-height-base) {
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $line-height;
+}
+
+@mixin font-serif($size: $font-size-base, $weight: normal, $line-height: $line-height-base) {
+  @include font-family-serif();
+  @include font-shorthand($size, $weight, $line-height);
+}
+
+@mixin font-sans-serif($size: $font-size-base, $weight: normal, $line-height: $line-height-base) {
+  @include font-family-sans-serif();
+  @include font-shorthand($size, $weight, $line-height);
+}
+
+@mixin font-monospace($size: $font-size-base, $weight: normal, $line-height: $line-height-base) {
+  @include font-family-monospace();
+  @include font-shorthand($size, $weight, $line-height);
+}
+
+// 以使页面上的字体抗锯齿,使用后字体看起来会更清晰舒服。
+// none用于小像素的文本、subpixel-antialiased浏览器默认的、antialiased反锯齿。
+@mixin font-smoothing($font-smoothing) {
+  -webkit-font-smoothing: $font-smoothing;
+  font-smoothing: $font-smoothing;
+}
+
+// ***************************************************************************
+// Appearance [元素风格]
+// ***************************************************************************
+
+// 可用来改变任何元素的浏览器默认风格，比如 将段落 -> 按钮
+@mixin appearance($val) {
+  -webkit-appearance: $val;
+  -moz-appearance: $val;
+  appearance: $val;
+}
+
+// ***************************************************************************
+// Border Radius Mixins [圆角]
+// ***************************************************************************
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+// Single Corner Border Radius
+@mixin border-top-left-radius($radius) {
+  -webkit-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+@mixin border-top-right-radius($radius) {
+  -webkit-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin border-bottom-right-radius($radius) {
+  -webkit-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin border-bottom-left-radius($radius) {
+  -webkit-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+// Single Side Border Radius
+@mixin border-top-radius($radius) {
+  @include border-top-right-radius($radius);
+  @include border-top-left-radius($radius);
+}
+
+@mixin border-right-radius($radius) {
+  @include border-top-right-radius($radius);
+  @include border-bottom-right-radius($radius);
+}
+
+@mixin border-bottom-radius($radius) {
+  @include border-bottom-right-radius($radius);
+  @include border-bottom-left-radius($radius);
+}
+
+@mixin border-left-radius($radius) {
+  @include border-top-left-radius($radius);
+  @include border-bottom-left-radius($radius);
+}
+
+// ***************************************************************************
+// Box shadows [阴影]
+// ***************************************************************************
+
+@mixin box-shadow($shadow...) {
+  -webkit-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+// ***************************************************************************
+// Transition Mixins [过渡效果]
+// W3C标准中对CSS3的transition这是样描述的:“CSS的transition允许CSS的属性值在一定的时间区间内平滑地过渡。
+// 这种效果可以在鼠标单击、获得焦点、被点击或对元素任何改变中触发，并圆滑地以动画效果改变CSS的属性值。”
+// http://www.php100.com/html/webkaifa/DIV_CSS/2012/1029/11403.html
+// ***************************************************************************
+
+@mixin transition($transition...) {
+  -webkit-transition: $transition;
+  transition: $transition;
+}
+
+// 指定一个动画开始执行的时间，也就是说当改变元素属性值后多长时间开始执行transition效果
+@mixin transition-delay($transition-delay) {
+  -webkit-transition-delay: $transition-delay;
+  transition-delay: $transition-delay;
+}
+
+// 指定元素 转换过程的持续时间
+@mixin transition-duration($transition-duration) {
+  -webkit-transition-duration: $transition-duration;
+  transition-duration: $transition-duration;
+}
+
+// 允许你根据时间的推进去改变属性值的变换速率
+@mixin transition-timing-function($transition-timing) {
+  -webkit-transition-timing-function: $transition-timing;
+  transition-timing-function: $transition-timing;
+}
+
+// transition-property是用来指定当元素其中一个属性改变时执行transition效果，
+// 其主要有以下几个值：
+//   none(没有属 性改 变)
+//   all（所有属性改变）这个也是其默认值
+//   indent（元素属性名）；当其值为none时，transition马上停止执行，当指定为all 时，则元素产生任何属性值变化时都将执行transition效果，ident是可以指定元素的某一个属性值。
+@mixin transition-property($property) {
+  -webkit-transition-property: $property;
+  transition-property: $property;
+}
+
+@mixin transition-transform($properties...) {
+  // special case cuz of transform vendor prefixes
+  -webkit-transition: -webkit-transform $properties;
+  transition: transform $properties;
+}
+
+// ***************************************************************************
+// Animation Mixins [动画]
+// ***************************************************************************
+
+@mixin animation($animation) {
+  -webkit-animation: $animation;
+  animation: $animation;
+}
+
+@mixin animation-duration($duration) {
+  -webkit-animation-duration: $duration;
+  animation-duration: $duration;
+}
+
+@mixin animation-direction($direction) {
+  -webkit-animation-direction: $direction;
+  animation-direction: $direction;
+}
+
+@mixin animation-timing-function($animation-timing) {
+  -webkit-animation-timing-function: $animation-timing;
+  animation-timing-function: $animation-timing;
+}
+
+@mixin animation-fill-mode($fill-mode) {
+  -webkit-animation-fill-mode: $fill-mode;
+  animation-fill-mode: $fill-mode;
+}
+
+@mixin animation-name($name...) {
+  -webkit-animation-name: $name;
+  animation-name: $name;
+}
+
+@mixin animation-iteration-count($count) {
+  -webkit-animation-iteration-count: $count;
+  animation-iteration-count: $count;
+}
+
+// ***************************************************************************
+// Transformation Mixins [变形]
+// http://www.douban.com/note/178903638/
+// ***************************************************************************
+
+// 旋转
+@mixin rotate($degrees) {
+  @include transform(rotate($degrees));
+}
+
+// 放大
+@mixin scale($ratio) {
+  @include transform(scale($ratio));
+}
+
+// 翻转
+@mixin translate($x, $y) {
+  @include transform(translate($x, $y));
+}
+
+// 倾斜
+@mixin skew($x, $y) {
+  @include transform(skew($x, $y));
+  -webkit-backface-visibility: hidden;
+}
+
+// 3D效果
+@mixin translate3d($x, $y, $z) {
+  @include transform(translate3d($x, $y, $z));
+}
+
+@mixin translateZ($z) {
+  @include transform(translateZ($z));
+}
+
+@mixin transform($val) {
+  -webkit-transform: $val;
+  transform: $val;
+}
+
+@mixin transform-origin($left, $top) {
+  -webkit-transform-origin: $left $top;
+  transform-origin: $left $top;
+}
+
+// Backface visibility [背面显示]
+// Prevent browsers from flickering when using CSS 3D transforms.
+// Default value is `visible`, but can be changed to `hidden
+@mixin backface-visibility($visibility) {
+  -webkit-backface-visibility: $visibility;
+  backface-visibility: $visibility;
+}
+
+// ***************************************************************************
+// Backgroud [背景]
+// ***************************************************************************
+
+// Background clipping [背景裁剪]
+@mixin background-clip($clip) {
+  -webkit-background-clip: $clip;
+  background-clip: $clip;
+}
+
+// Background sizing
+@mixin background-size($size) {
+  -webkit-background-size: $size;
+  background-size: $size;
+}
+
+// ***************************************************************************
+// Box sizing [盒尺寸]
+// ***************************************************************************
+@mixin box-sizing($boxmodel) {
+  -webkit-box-sizing: $boxmodel;
+  -moz-box-sizing: $boxmodel;
+  box-sizing: $boxmodel;
+}
+
+// ***************************************************************************
+// User select [用户选择]
+// ***************************************************************************
+
+@mixin user-select($select) {
+  -webkit-user-select: $select;
+  -moz-user-select: $select;
+  -ms-user-select: $select;
+  user-select: $select;
+}
+
+// ***************************************************************************
+// Content Columns
+// ***************************************************************************
+
+@mixin content-columns($columnCount, $columnGap: $grid-gutter-width) {
+  -webkit-column-count: $columnCount;
+  -moz-column-count: $columnCount;
+  column-count: $columnCount;
+  -webkit-column-gap: $columnGap;
+  -moz-column-gap: $columnGap;
+  column-gap: $columnGap;
+}
+
+// ***************************************************************************
+// Flexbox Mixins
+// http://philipwalton.github.io/solved-by-flexbox/
+// https://github.com/philipwalton/solved-by-flexbox
+// ***************************************************************************
+
+@mixin display-flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@mixin display-inline-flex {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@mixin flex-direction($value: row) {
+  @if $value == row-reverse {
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: horizontal;
+  } @else if $value == column {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+  } @else if $value == column-reverse {
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: vertical;
+  } @else {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+  }
+  -webkit-flex-direction: $value;
+  -moz-flex-direction: $value;
+  -ms-flex-direction: $value;
+  flex-direction: $value;
+}
+
+@mixin flex-wrap($value: nowrap) {
+  // No Webkit Box fallback.
+  -webkit-flex-wrap: $value;
+  -moz-flex-wrap: $value;
+  @if $value == nowrap {
+    -ms-flex-wrap: none;
+  } @else {
+    -ms-flex-wrap: $value;
+  }
+  flex-wrap: $value;
+}
+
+@mixin flex($fg: 1, $fs: null, $fb: null) {
+  -webkit-box-flex: $fg;
+  -webkit-flex: $fg $fs $fb;
+  -moz-box-flex: $fg;
+  -moz-flex: $fg $fs $fb;
+  -ms-flex: $fg $fs $fb;
+  flex: $fg $fs $fb;
+}
+
+@mixin flex-flow($values: (row nowrap)) {
+  // No Webkit Box fallback.
+  -webkit-flex-flow: $values;
+  -moz-flex-flow: $values;
+  -ms-flex-flow: $values;
+  flex-flow: $values;
+}
+
+@mixin align-items($value: stretch) {
+  @if $value == flex-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+  } @else if $value == flex-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+  } @else {
+    -webkit-box-align: $value;
+    -ms-flex-align: $value;
+  }
+  -webkit-align-items: $value;
+  -moz-align-items: $value;
+  align-items: $value;
+}
+
+@mixin align-self($value: auto) {
+  -webkit-align-self: $value;
+  -moz-align-self: $value;
+  @if $value == flex-start {
+    -ms-flex-item-align: start;
+  } @else if $value == flex-end {
+    -ms-flex-item-align: end;
+  } @else {
+    -ms-flex-item-align: $value;
+  }
+  align-self: $value;
+}
+
+@mixin align-content($value: stretch) {
+  -webkit-align-content: $value;
+  -moz-align-content: $value;
+  @if $value == flex-start {
+    -ms-flex-line-pack: start;
+  } @else if $value == flex-end {
+    -ms-flex-line-pack: end;
+  } @else {
+    -ms-flex-line-pack: $value;
+  }
+  align-content: $value;
+}
+
+@mixin justify-content($value: stretch) {
+  @if $value == flex-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+  } @else if $value == flex-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+  } @else if $value == space-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+  } @else {
+    -webkit-box-pack: $value;
+    -ms-flex-pack: $value;
+  }
+  -webkit-justify-content: $value;
+  -moz-justify-content: $value;
+  justify-content: $value;
+}
+
+@mixin flex-order($n) {
+  -webkit-order: $n;
+  -ms-flex-order: $n;
+  order: $n;
+  -webkit-box-ordinal-group: $n;
+}
+
+@mixin responsive-grid-break($selector, $max-width) {
+  @media (max-width: $max-width) {
+    #{$selector} {
+      -webkit-box-direction: normal;
+      -moz-box-direction: normal;
+      -webkit-box-orient: vertical;
+      -moz-box-orient: vertical;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+
+      .mo-col, .mo-col-10, .mo-col-20, .mo-col-25, .mo-col-33, .mo-col-34, .mo-col-50, .mo-col-66, .mo-col-67, .mo-col-75, .mo-col-80, .mo-col-90 {
+        @include flex(1);
+        margin-bottom: ($grid-padding-width * 3) / 2;
+        margin-left: 0;
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Button Mixins
+// --------------------------------------------------
+
+@mixin button-style($bg-color, $border-color, $active-bg-color, $active-border-color, $color) {
+  border-color: $border-color;
+  background-color: $bg-color;
+  color: $color;
+
+  // Give desktop users something to play with
+  &:hover {
+    color: $color;
+    text-decoration: none;
+  }
+  &.mo-active,
+  &.mo-activated {
+    border-color: $active-border-color;
+    background-color: $active-bg-color;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@mixin button-clear($color, $font-size:"") {
+  &.mo-button-clear {
+    border-color: transparent;
+    background: none;
+    box-shadow: none;
+    color: $color;
+
+    @if $font-size != "" {
+      font-size: $font-size;
+    }
+  }
+  &.mo-button-icon {
+    border-color: transparent;
+    background: none;
+  }
+}
+
+@mixin button-outline($color, $text-color:"") {
+  &.mo-button-outline {
+    border-color: $color;
+    background: transparent;
+    @if $text-color == "" {
+      $text-color: $color;
+    }
+    color: $text-color;
+    &.mo-active,
+    &.mo-activated {
+      background-color: $color;
+      box-shadow: none;
+      color: #fff;
+    }
+  }
+}
+
+// Bar Mixins
+// --------------------------------------------------
+
+@mixin bar-style($bg-color, $border-color, $color) {
+  border-color: $border-color;
+  background-color: $bg-color;
+  background-image: linear-gradient(0deg, $border-color, $border-color 50%, transparent 50%);
+  color: $color;
+
+  .mo-title {
+    color: $color;
+  }
+}
+
+// Tab Mixins
+// --------------------------------------------------
+
+@mixin tab-style($bg-color, $border-color, $color) {
+  border-color: $border-color;
+  background-color: $bg-color;
+  background-image: linear-gradient(0deg, $border-color, $border-color 50%, transparent 50%);
+  color: $color;
+}
+
+@mixin tab-badge-style($bg-color, $color) {
+  .mo-tab-item .mo-badge {
+    background-color: $bg-color;
+    color: $color;
+  }
+}
+
+// Tab Mixins
+// --------------------------------------------------
+
+@mixin tab-style($bg-color, $border-color, $color) {
+  border-color: $border-color;
+  background-color: $bg-color;
+  background-image: linear-gradient(0deg, $border-color, $border-color 50%, transparent 50%);
+  color: $color;
+}
+
+@mixin tab-badge-style($bg-color, $color) {
+  .mo-tab-item .mo-badge {
+    background-color: $bg-color;
+    color: $color;
+  }
+}
+
+// Item Mixins
+// --------------------------------------------------
+
+@mixin item-style($bg-color, $border-color, $color) {
+  border-color: $border-color;
+  background-color: $bg-color;
+  color: $color;
+}
+
+@mixin item-active-style($active-bg-color, $active-border-color) {
+  border-color: $active-border-color;
+  background-color: $active-bg-color;
+}
+
+// Badge Mixins
+// --------------------------------------------------
+
+@mixin badge-style($bg-color, $color) {
+  background-color: $bg-color;
+  color: $color;
+}
+
+// Range Mixins
+// --------------------------------------------------
+
+@mixin range-style($track-bg-color) {
+  &::-webkit-slider-thumb:before {
+    background: $track-bg-color;
+  }
+  &::-ms-fill-lower {
+    background: $track-bg-color;
+  }
+}
+
+// Checkbox Mixins
+// --------------------------------------------------
+
+@mixin checkbox-style($off-border-color, $on-bg-color, $on-border-color) {
+  & input:before,
+  & .checkbox-icon:before {
+    border-color: $off-border-color;
+  }
+
+  // what the background looks like when its checked
+  & input:checked:before,
+  & input:checked + .checkbox-icon:before {
+    background: $on-bg-color;
+    border-color: $on-border-color;
+  }
+}
+
+// Toggle Mixins
+// --------------------------------------------------
+
+@mixin toggle-style($on-border-color, $on-bg-color) {
+  // the track when the toggle is "on"
+  & input:checked + .track {
+    border-color: $on-border-color;
+    background-color: $on-bg-color;
+  }
+}
+
+@mixin toggle-small-style($on-bg-color) {
+  // the track when the toggle is "on"
+  & input:checked + .track {
+    background-color: rgba($on-bg-color, .5);
+  }
+  & input:checked + .track .handle {
+    background-color: $on-bg-color;
+  }
+}

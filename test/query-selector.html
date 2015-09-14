@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="core/dom/test.css">
+    <title>Mobird Query selector unit tests</title>
+    <script src="vendor/evidence.js"></script>
+    <script src="vendor/evidence_runner.js"></script>
+    <script src="../build/js/mobird.js"></script>
+</head>
+<body>
+  <h1>Zepto Selector unit tests</h1>
+  <p id="results">
+    Running… see browser console for results
+  </p>
+  <div id="fixtures">
+    <ul id=list><li>one</li><li>two</li></ul>
+    <div class=visibility id=vis>look at me!</div>
+    <div class=visibility id=invis style="display:none">can't see me</div>
+    <ol id=child class=test>
+      <li><span>child1</span></li>
+      <li><span>child2</span>
+        <ul>
+          <li><span>child3</span></li>
+          <li><span>child4</span></li>
+        </ul>
+      </li>
+    </ol>
+  </div><!-- fixtures -->
+
+  <script src="core/dom/selector.js"></script>
+</body>
+</html>

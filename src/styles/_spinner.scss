@@ -1,0 +1,100 @@
+/**
+ * Spinners
+ * --------------------------------------------------
+ */
+
+.mo-spinner {
+  svg {
+    width: $spinner-width;
+    height: $spinner-height;
+  }
+
+  stroke: $spinner-default-stroke;
+  fill: $spinner-default-fill;
+
+  &.mo-spinner-light {
+    stroke: $spinner-light-stroke;
+    fill: $spinner-light-fill;
+  }
+  &.mo-spinner-stable {
+    stroke: $spinner-stable-stroke;
+    fill: $spinner-stable-fill;
+  }
+  &.mo-spinner-positive {
+    stroke: $spinner-positive-stroke;
+    fill: $spinner-positive-fill;
+  }
+  &.mo-spinner-calm {
+    stroke: $spinner-calm-stroke;
+    fill: $spinner-calm-fill;
+  }
+  &.mo-spinner-balanced {
+    stroke: $spinner-balanced-stroke;
+    fill: $spinner-balanced-fill;
+  }
+  &.mo-spinner-assertive {
+    stroke: $spinner-assertive-stroke;
+    fill: $spinner-assertive-fill;
+  }
+  &.mo-spinner-energized {
+    stroke: $spinner-energized-stroke;
+    fill: $spinner-energized-fill;
+  }
+  &.mo-spinner-royal {
+    stroke: $spinner-royal-stroke;
+    fill: $spinner-royal-fill;
+  }
+  &.mo-spinner-dark {
+    stroke: $spinner-dark-stroke;
+    fill: $spinner-dark-fill;
+  }
+}
+
+.mo-spinner-android {
+  stroke: #4b8bf4;
+}
+
+.mo-spinner-ios,
+.mo-spinner-ios-small {
+  stroke: #69717d;
+}
+
+.mo-spinner-spiral {
+  .mo-stop1 {
+    stop-color: $spinner-light-fill;
+    stop-opacity: 0;
+  }
+
+  &.mo-spinner-light {
+    .mo-stop1 {
+      stop-color: $spinner-default-fill;
+    }
+    .mo-stop2 {
+      stop-color: $spinner-light-fill;
+    }
+  }
+  &.mo-spinner-stable .mo-stop2 {
+    stop-color: $spinner-stable-fill;
+  }
+  &.mo-spinner-positive .mo-stop2 {
+    stop-color: $spinner-positive-fill;
+  }
+  &.mo-spinner-calm .mo-stop2 {
+    stop-color: $spinner-calm-fill;
+  }
+  &.mo-spinner-balanced .mo-stop2 {
+    stop-color: $spinner-balanced-fill;
+  }
+  &.mo-spinner-assertive .mo-stop2 {
+    stop-color: $spinner-assertive-fill;
+  }
+  &.mo-spinner-energized .mo-stop2 {
+    stop-color: $spinner-energized-fill;
+  }
+  &.mo-spinner-royal .mo-stop2 {
+    stop-color: $spinner-royal-fill;
+  }
+  &.mo-spinner-dark .mo-stop2 {
+    stop-color: $spinner-dark-fill;
+  }
+}

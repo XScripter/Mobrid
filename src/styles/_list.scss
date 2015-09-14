@@ -1,0 +1,114 @@
+.mo-list {
+  position: relative;
+  padding-top: $item-border-width;
+  padding-bottom: $item-border-width;
+  padding-left: 0; // reset padding because ul and ol
+  margin-bottom: 20px;
+}
+
+.mo-list:last-child {
+  margin-bottom: 0px;
+  &.mo-card {
+    margin-bottom: 40px;
+  }
+}
+
+.mo-list-header {
+  margin-top: $list-header-margin-top;
+  padding: $list-header-padding;
+  background-color: $list-header-bg;
+  color: $list-header-color;
+  font-weight: bold;
+}
+
+// when its a card make sure it doesn't duplicate top and bottom borders
+.mo-card.mo-list .mo-list-item {
+  padding-right: 1px;
+  padding-left: 1px;
+}
+
+/**
+ * Cards and Inset Lists
+ * --------------------------------------------------
+ * A card and list-inset are close to the same thing, except a card as a box shadow.
+ */
+
+.mo-card,
+.mo-list-inset {
+  overflow: hidden;
+  margin: ($content-padding * 2) $content-padding;
+  border-radius: $card-border-radius;
+  background-color: $card-body-bg;
+}
+
+.mo-card {
+  padding-top: $item-border-width;
+  padding-bottom: $item-border-width;
+  box-shadow: $card-box-shadow;
+
+  .mo-item {
+    border-left: 0;
+    border-right: 0;
+  }
+  .mo-item:first-child {
+    border-top: 0;
+  }
+  .mo-item:last-child {
+    border-bottom: 0;
+  }
+}
+
+.mo-padding {
+  .mo-card, .mo-list-inset {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.mo-card .mo-item,
+.mo-list-inset .mo-item,
+.mo-padding > .mo-list .mo-item {
+  &:first-child {
+    border-top-left-radius: $card-border-radius;
+    border-top-right-radius: $card-border-radius;
+
+    .mo-item-content {
+      border-top-left-radius: $card-border-radius;
+      border-top-right-radius: $card-border-radius;
+    }
+  }
+  &:last-child {
+    border-bottom-right-radius: $card-border-radius;
+    border-bottom-left-radius: $card-border-radius;
+
+    .mo-item-content {
+      border-bottom-right-radius: $card-border-radius;
+      border-bottom-left-radius: $card-border-radius;
+    }
+  }
+}
+
+.mo-card .mo-item:last-child,
+.mo-list-inset .mo-item:last-child {
+  margin-bottom: $item-border-width * -1;
+}
+
+.mo-card .mo-item,
+.mo-list-inset .mo-item,
+.mo-padding > .mo-list .mo-item,
+.mo-padding-horizontal > .mo-list .mo-item {
+  margin-right: 0;
+  margin-left: 0;
+
+  &.mo-item-input input {
+    padding-right: 44px;
+  }
+}
+
+.mo-padding-left > .mo-list .mo-item {
+  margin-left: 0;
+}
+
+.mo-padding-right > .mo-list .mo-item {
+  margin-right: 0;
+}
